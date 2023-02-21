@@ -27,23 +27,29 @@ const CardProfile = (props) => {
       const signer = provider.getSigner();
       const nftContract = new ethers.Contract(contract.address, contract.abi, signer);
 
-      nftContract.queryFilter('Transfer', 0, props.minted).then((events) => {
-        for (let event of events) {
-          if (ethers.utils.getAddress(event.args.to) === ethers.utils.getAddress(props.account.toString())) {
-            const tokenId = Number(event.args.tokenId._hex);
-            if (tokens.indexOf(tokenId) === -1) {
-              tokens.push(tokenId);
-            }
-          }
+      nftContract.balanceOf(props.account).then((res) => {
+        try {
+          const count = Number(res._hex);
+          let promises = [];
+          for (let index = 0; index < count; index++) {
+            promises.push(nftContract.tokenOfOwnerByIndex(props.account, index));
+            Promise.all(promises).then((result) => {
+              result.forEach(element => {
+                tokens.push(Number(element._hex));
+              });
+              console.log(tokens);
+              setMyTokens(tokens);
+            }).catch((er) => {
+              console.log(er);
+            }).finally(() => {
 
-          if (ethers.utils.getAddress(event.args.from) === ethers.utils.getAddress(props.account.toString())) {
-            const tokenId = Number(event.args.tokenId._hex);
-            if (tokens.indexOf(tokenId) > -1) {
-              tokens.splice(tokens.indexOf(tokenId), 1);
-            }
+            });
           }
+        } catch (error) {
+          console.log(error);
         }
-        setMyTokens(tokens);
+      }).catch((err) => {
+        console.log(err);
       });
     }
   };
