@@ -1,0 +1,12 @@
+.custom-btn-loading:before {
+    margin-top: 6px;
+}
+
+.gradient-border {
+    border-width: 3px;
+    border-style: solid;
+    border-image:
+        linear-gradient(to bottom,
+            #5691fe,
+            rgba(0, 0, 0, 0)) 1 100%;
+}

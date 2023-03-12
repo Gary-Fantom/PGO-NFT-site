@@ -33,6 +33,7 @@ import SubmitRequest from "../views/pages/Support/SubmitRequest"
 import UpcomingProjects from "../views/pages/NftPages/UpcomingProjects"
 import Upload from "../views/pages/item/Upload"
 import UploadType from "../views/pages/item/UploadType"
+import Swap from "../views/pages/NftPages/Swap";
 
 const Routes = (props) => {
     return (
@@ -44,9 +45,9 @@ const Routes = (props) => {
                     <Route path="/home-1" render={() => <Home1 {...props} />} />
                     <Route path="/home-2" render={() => <Home2 {...props} />} />
                     <Route path="/home-3" render={() => <Home3 {...props} />} /> */}
-                    {/* inner pages */}
+                    {/* inner pages
                     {/* <Route path="/connect-wallet" render={() => <ConnectWalllet {...props} />} /> */}
-                    <Route path="/login" render={() => <Login {...props} />} />
+                    {/* <Route path="/login" render={() => <Login {...props} />} /> */}
                     {/* <Route path="/profile" render={() => <Profile {...props} />} /> */}
                     <Route path="/wallet" render={() => <Profile {...props} />} />
                     {/* <Route path="/edit-profile" render={() => <EditProfile {...props} />} />
@@ -60,6 +61,7 @@ const Routes = (props) => {
                     <Route path="/creators" render={() => <Creators {...props} />} />
                     <Route path="/live-auctions" render={() => <LiveAuctions {...props} />} /> */}
                     <Route path="/marketplace" render={() => <Marketplace {...props} />} />
+                    <Route path="/swap" render={() => <Swap {...props} />} />
                     {/* <Route path="/ranking" render={() => <Ranking {...props} />} />
                     <Route path="/upcoming-projects" render={() => <UpcomingProjects {...props} />} />
                     <Route path="/activity" render={() => <Activity {...props} />} />

@@ -1,9 +1,11 @@
 import "./assets/css/plugins/bootstrap.min.css";
 import 'remixicon/fonts/remixicon.css'
 import "./assets/scss/style.scss";
+import "./assets/scss/custom.scss";
 import { useMetaMask, useConnectedMetaMask } from 'metamask-react';
 import Router from "./Router/routes";
 import React from "react";
+import env from "react-dotenv";
 
 function ConnectedApp(props) {
   const { account, chainId } = useConnectedMetaMask();
@@ -41,11 +43,11 @@ function App() {
   }
 
   const TOKENINFO = {
-    chain: "goerli",
-    standard: "ERC-721",
-    fee: 5,
-    net: "testnets",
-    explorer: "https://goerli.etherscan.io"
+    chain: env.CHAIN,
+    standard: env.STANDARD,
+    fee: env.FEE,
+    net: env.NET,
+    explorer: env.EXPLORER
   };
 
   const { status, connect, switchChain, addChain } = useMetaMask();

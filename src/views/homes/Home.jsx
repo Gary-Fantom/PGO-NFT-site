@@ -14,7 +14,7 @@ const Home = (props) => {
       <Hero1 />
       <TopNFTList {...props} />
       <Logos />
-      <SiteFooter />
+      <SiteFooter {...props} />
     </div>
   );
 };

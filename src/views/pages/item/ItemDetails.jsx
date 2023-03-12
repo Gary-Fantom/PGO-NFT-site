@@ -330,7 +330,7 @@ const ItemDetails = (props) => {
           </div>
         </div>
       </div>
-      <SiteFooter />
+      <SiteFooter {...props} />
     </div>
   );
 };

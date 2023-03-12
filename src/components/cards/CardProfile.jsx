@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import contract from '../../contract/nft.json';
 import { ethers } from 'ethers';

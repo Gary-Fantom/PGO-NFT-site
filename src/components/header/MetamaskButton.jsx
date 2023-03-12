@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 import { useState, useEffect } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
+import { toast } from 'react-toastify';
 
 const MetamaskButton = (props) => {
     const ref = useRef();
@@ -11,7 +12,6 @@ const MetamaskButton = (props) => {
     const [status, setStatus] = useState(props.status ? props.status : null);
     const [account, setAccount] = useState(props.account ? props.account : null);
     const [chainId, setChainId] = useState(props.chainId ? props.chainId : null);
-    const [copied, setCopied] = useState(false);
 
     useEffect(() => {
         setStatus(props.status);
@@ -21,14 +21,8 @@ const MetamaskButton = (props) => {
         props.status, props.connect, props.account, props.chainId
     ]);
 
-    const copyToClipboard = (account) => {
-        navigator.clipboard.writeText(account);
-        setCopied(true);
-        setTimeout(() => { setCopied(false) }, 1000);
-    };
-
     const renderMetamaskButton = () => {
-        
+
         switch (status) {
             case "initializing":
                 return (
@@ -45,7 +39,7 @@ const MetamaskButton = (props) => {
                         trigger={
                             <div className="btn btn-grad btn-sm">
                                 <i className="ri-wallet-3-line" />
-                                Connect wallet
+                                Install Wallet
                             </div>
                         }
                         position="bottom center">
@@ -80,7 +74,6 @@ const MetamaskButton = (props) => {
                     </Popup>
                 );
             case "notConnected":
-
                 break;
             case "connecting":
                 return (
@@ -99,15 +92,10 @@ const MetamaskButton = (props) => {
                     );
                 }
                 return (
-                    <div className="btn btn-grad btn-sm" onClick={() => copyToClipboard(account)} style={{ minWidth: 130 }}>
+                    <div className="btn btn-grad btn-sm" style={{ minWidth: 130 }}>
                         <i className="ri-wallet-3-line" />
-                        {copied && (
-                            <span><i className="ri-check-line"></i>Copied</span>
-                        )}
-                        {!copied && (
-                            <span>{account.substring(0, 8) + "..."}
-                            </span>
-                        )}
+                        <span>{account.substring(0, 8) + "..."}
+                        </span>
                     </div>
                 );
             default:
@@ -128,6 +116,12 @@ const MetamaskButton = (props) => {
                 await props.switchChain(props.networks[props.info.chain]);
             } catch (error) {
                 console.log(error);
+                toast.error(
+                    <div>
+                        <span>{error.message}</span>
+                    </div>,
+                    { position: toast.POSITION.TOP_RIGHT }
+                );
             }
         }
     };
@@ -137,9 +131,15 @@ const MetamaskButton = (props) => {
             if (props.connect && props.switchChain) {
                 try {
                     await props.switchChain(props.networks[props.info.chain]);
-                    props.connect();
+                    await props.connect();
                 } catch (error) {
                     console.log(error);
+                    toast.error(
+                        <div>
+                            <span>{error.message}</span>
+                        </div>,
+                        { position: toast.POSITION.TOP_RIGHT }
+                    );
                 }
             }
         }

@@ -138,7 +138,7 @@ const Upload = (props) => {
           </div>
         </div>
       </div>
-      <SiteFooter />
+      <SiteFooter {...props} />
     </div>
   );
 };

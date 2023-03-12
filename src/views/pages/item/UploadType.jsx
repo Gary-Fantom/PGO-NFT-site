@@ -66,7 +66,7 @@ const UploadType = (props) => {
           </div>
         </div>
       </div>
-      <SiteFooter />
+      <SiteFooter {...props} />
     </div>
   );
 };

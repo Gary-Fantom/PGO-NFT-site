@@ -41,7 +41,7 @@ const wallets = [
   },
 ];
 
-const ConnectWalllet = () => {
+const ConnectWalllet = (props) => {
   const ref = useRef();
   const closeTooltip = () => ref.current.close();
   useDocumentTitle('Wallet ');
@@ -172,7 +172,7 @@ const ConnectWalllet = () => {
           </div>
         </div>
       </div>
-      <SiteFooter />
+      <SiteFooter {...props} />
     </div>
   );
 };

@@ -17,10 +17,8 @@ export default function TopNFTList(props) {
   const [maxSupply, setMaxSupply] = useState(0);
   const [nftItems, setNftItems] = useState([]);
   useEffect(() => {
-    if (props.status === "connected") {
-      fetchSmartContract();
-    }
-  }, [props.status, props.chainId]);
+    fetchSmartContract();
+  }, [props.chainId]);
 
   useEffect(() => {
     fetchNFTItems();
@@ -61,30 +59,24 @@ export default function TopNFTList(props) {
   };
 
   const fetchSmartContract = () => {
-    const { ethereum } = window;
-    if (ethereum) {
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const signer = provider.getSigner();
-      const nftContract = new ethers.Contract(contract.address, contract.abi, signer);
-      let promises = [nftContract.minted(), nftContract.price(), nftContract.maxSupply()];
-      Promise.all(promises).then((res) => {
-        let mint = res[0];
-        let price = res[1];
-        let supply = res[2];
-        setMinted(Number(mint._hex));
-        setMainPrice(Number(price));
-        setMaxSupply(Number(supply));
-      }).catch((err) => {
-        console.log(err);
-        setMinted(0);
-        setMainPrice(0);
-        setMaxSupply(0);
-      }).finally(() => {
+    const provider = new ethers.providers.InfuraProvider(env.CHAIN, env.INFRA_KEY);
+    const nftContract = new ethers.Contract(contract.address, contract.abi, provider);
+    let promises = [nftContract.minted(), nftContract.price(), nftContract.maxSupply()];
+    Promise.all(promises).then((res) => {
+      let mint = res[0];
+      let price = res[1];
+      let supply = res[2];
+      setMinted(Number(mint._hex));
+      setMainPrice(Number(price));
+      setMaxSupply(Number(supply));
+    }).catch((err) => {
+      console.log(err);
+      setMinted(0);
+      setMainPrice(0);
+      setMaxSupply(0);
+    }).finally(() => {
 
-      });
-    } else {
-      console.log("Ethereum object does not exist");
-    }
+    });
   };
 
   const settings = {

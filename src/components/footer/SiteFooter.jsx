@@ -1,7 +1,18 @@
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
-function SiteFooter() {
+function SiteFooter(props) {
+
+  const [status, setStatus] = useState('');
+  const [chainId, setChainId] = useState('');
+
+  useEffect(() => {
+    setStatus(props.status);
+    setChainId(props.chainId);
+  }, [props.status, props.chainId]);
+
   return (
     <div>
       <footer className="footer__1">
@@ -19,18 +30,18 @@ function SiteFooter() {
               <div>
                 <ul className="footer__social space-x-10 mb-40">
                   <li>
-                    <a href="https://www.facebook.com/" rel="noreferrer"  target="_blank">
+                    <a href="https://www.facebook.com/" rel="noreferrer" target="_blank">
                       <i className="ri-facebook-line" />
                     </a>
                   </li>
                   <li>
-                    <a href="https://www.messenger.com/" rel="noreferrer"  target="_blank">
+                    <a href="https://www.messenger.com/" rel="noreferrer" target="_blank">
                       <i className="ri-messenger-line" />
                     </a>
                   </li>
                   <li>
                     <a href="https://whatsapp.com" target="_blank" rel="noreferrer" >
-                      <i className="ri-whatsapp-line"  />
+                      <i className="ri-whatsapp-line" />
                     </a>
                   </li>
                   <li>
@@ -58,17 +69,24 @@ function SiteFooter() {
                 <li>
                   <Link to="marketplace"> Marketplace</Link>
                 </li>
+                <li>
+                  <Link to="swap"> Swap</Link>
+                </li>
               </ul>
             </div>
             <div className="col-lg-2 col-6">
               <h6 className="footer__title">Assets</h6>
               <ul className="footer__list">
-                <li>
-                  <Link to="wallet"> Wallet </Link>
-                </li>
+                {
+                  status === 'connected' && chainId === props.networks[props.info.chain] && (
+                    <li>
+                      <Link to="wallet"> Wallet </Link>
+                    </li>
+                  )
+                }
               </ul>
             </div>
-            
+
           </div>
           <p className="copyright text-center">
             Copyright © 2021. Created with love by creabik.

@@ -1,21 +1,51 @@
 import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MetamaskButton from '../MetamaskButton';
-const Menu = [
-    {
-        title: 'Home',
-        link: '/',
-    },
-    {
-        title: 'Marketplace',
-        link: '/marketplace',
-    },
-    {
-        title: ' Wallet',
-        link: '/wallet',
-    },
-];
+
 function SiteMobileMenu(props) {
+
+    const [Menu, setMenu] = useState([]);
+
+    useEffect(() => {
+        if (props.status === 'connected' && props.chainId === props.networks[props.info.chain]) {
+            setMenu([
+                {
+                    title: 'Home',
+                    link: '/',
+                },
+                {
+                    title: 'Marketplace',
+                    link: '/marketplace',
+                },
+                {
+                    title: ' Wallet',
+                    link: '/wallet',
+                },
+                {
+                    title: ' Swap',
+                    link: '/swap',
+                }
+            ]);
+        } else {
+            setMenu([
+                {
+                    title: 'Home',
+                    link: '/',
+                },
+                {
+                    title: 'Marketplace',
+                    link: '/marketplace',
+                },
+                {
+                    title: ' Swap',
+                    link: '/swap',
+                }
+            ]);
+        }
+    }, [props.status, props.chainId]);
+
     return (
         <div>
             <div className="header__mobile__menu space-y-40">

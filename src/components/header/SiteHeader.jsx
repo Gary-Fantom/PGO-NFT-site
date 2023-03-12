@@ -1,25 +1,53 @@
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import React from 'react';
 import { useState } from 'react';
 import MetamaskButton from './MetamaskButton';
 import SiteMobileMenu from './Menu/SiteMobileMenu';
-
-const PagesMenu = [
-    {
-        title: 'Home',
-        link: '/',
-    },
-    {
-        title: 'Marketplace',
-        link: '/marketplace',
-    },    
-    {
-        title: ' Wallet',
-        link: '/wallet',
-    },
-];
+import { ToastContainer } from 'react-toastify';
+import { useEffect } from 'react';
 
 const SiteHeader = (props) => {
+
+  const [PagesMenu, setPagesMenu] = useState([]);
+
+  useEffect(() => {
+    if (props.status === 'connected' && props.chainId === props.networks[props.info.chain]) {
+      setPagesMenu([
+        {
+          title: 'Home',
+          link: '/',
+        },
+        {
+          title: 'Marketplace',
+          link: '/marketplace',
+        },
+        {
+          title: ' Wallet',
+          link: '/wallet',
+        },
+        {
+          title: ' Swap',
+          link: '/swap',
+        },
+      ]);
+    } else {
+      setPagesMenu([
+        {
+          title: 'Home',
+          link: '/',
+        },
+        {
+          title: 'Marketplace',
+          link: '/marketplace',
+        },
+        {
+          title: ' Swap',
+          link: '/swap',
+        },
+      ]);
+    }
+  }, [props.status, props.chainId]);
+
   const [isActive, setActive] = useState(false);
   const toggleClass = () => {
     setActive(!isActive);
@@ -27,7 +55,6 @@ const SiteHeader = (props) => {
 
   return (
     <div>
-
       <header className="header__1">
         <div className="container">
           <div className="wrapper js-header-wrapper">
@@ -63,13 +90,14 @@ const SiteHeader = (props) => {
             <div className="header__btns">
               <MetamaskButton {...props} />
             </div>
-            <div className="header__burger js-header-burger" onClick={toggleClass}/>
-            <div className={` header__mobile js-header-mobile  ${isActive ? 'visible': null} `}>
-            <SiteMobileMenu {...props} />
+            <div className="header__burger js-header-burger" onClick={toggleClass} />
+            <div className={` header__mobile js-header-mobile  ${isActive ? 'visible' : null} `}>
+              <SiteMobileMenu {...props} />
             </div>
           </div>
         </div>
       </header>
+      <ToastContainer position="bottom-right" />
     </div>
   );
 };
